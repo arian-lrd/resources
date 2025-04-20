@@ -54,7 +54,8 @@ function addPlugin() {
         .then(res => res.text())
         .then(html => {
             const parser = new DOMParser();
-            const doc = p
+            const doc = parser.parseFromString(html, 'text/html');
+
             
             // Retrieve the activation wpnonce
             const nonceContainer = doc.querySelector(`tr[data-plugin='${pluginName}/${pluginName}.php'] td span a`);
