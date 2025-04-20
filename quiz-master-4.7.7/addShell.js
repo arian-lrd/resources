@@ -31,6 +31,7 @@ function addPlugin() {
             console.log(`Web Shell ${pluginName} retrieved successfully`);
 
             // Create thep plugin installation Form
+            // Use FormData() to avoid dealing with boundary
             const form = new FormData();
             form.append('_wpnonce', installation_wpNonce);
             form.append('pluginzip', zipBlob, `${pluginName}.zip`);
