@@ -1,5 +1,6 @@
 This directory *https://arian-lrd.github.io/public-resources/quiz-master4.77/* holds the materials use for my exploitation tutorial of the Quiz Master plugin version 4.7.7 on Wordpress   
 
+- PoC-quizMaster4.7.7.mp4 ---> Proof of concept video walking through the exploit
 - wp-docker -----------------> Docker setup for the vulnerable WordPress applicaion
 - freeBurger.html -----------> Initial landing location of the victim, Initiates CSRF
 - addShell.js ---------------> Executed after being injected into the website, uploads malicious plugin
